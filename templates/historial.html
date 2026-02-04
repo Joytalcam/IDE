@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Predicciones - IDE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e8eef3;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            border-bottom: 3px solid #1a5490;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #1a5490;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #5a6c7d;
+            font-size: 0.95em;
+        }
+        
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 30px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .total-registros {
+            font-size: 1em;
+            color: #5a6c7d;
+            font-weight: 600;
+            background: #f8fafb;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border-left: 4px solid #1a5490;
+        }
+        
+        .btn {
+            padding: 10px 22px;
+            border: 2px solid;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: #1a5490;
+            border-color: #1a5490;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #144070;
+            border-color: #144070;
+        }
+        
+        .btn-danger {
+            background: #d32f2f;
+            border-color: #d32f2f;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b71c1c;
+            border-color: #b71c1c;
+        }
+        
+        /* Estadísticas resumidas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 2px solid #e0e6ed;
+            border-left: 4px solid #1a5490;
+            padding: 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(26, 84, 144, 0.15);
+        }
+        
+        .stat-card.energy {
+            border-left-color: #ff8800;
+        }
+        
+        .stat-card.efficiency {
+            border-left-color: #00a86b;
+        }
+        
+        .stat-icon {
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            color: #5a6c7d;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Tabla */
+        .table-section {
+            margin: 30px 0;
+        }
+        
+        .table-header {
+            background: #f8fafb;
+            padding: 15px 20px;
+            border-radius: 6px 6px 0 0;
+            border: 1px solid #e0e6ed;
+            border-bottom: none;
+        }
+        
+        .table-header h3 {
+            color: #1a5490;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid #e0e6ed;
+            border-radius: 0 0 6px 6px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        thead {
+            background: #1a5490;
+            color: white;
+        }
+        
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #e0e6ed;
+            transition: background-color 0.2s ease;
+        }
+        
+        tbody tr:hover {
+            background-color: #f8fafb;
+        }
+        
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        td {
+            padding: 12px;
+            font-size: 0.9em;
+            color: #1a1a1a;
+        }
+        
+        .numero-registro {
+            font-weight: 700;
+            color: #1a5490;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .fecha-hora {
+            color: #5a6c7d;
+            font-size: 0.85em;
+        }
+        
+        .valor-numerico {
+            font-family: 'Courier New', monospace;
+            text-align: right;
+        }
+        
+        .valor-positivo {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+        
+        .valor-negativo {
+            color: #00a86b;
+            font-weight: 600;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: #f8fafb;
+            border-radius: 6px;
+            border: 2px dashed #e0e6ed;
+        }
+        
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            color: #5a6c7d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .empty-state p {
+            color: #8c9ba5;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.8em;
+            }
+            
+            .stat-value {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Historial de Análisis Energético</h1>
+            <p class="subtitle">Registro Histórico de Predicciones IDE - Control de Desempeño</p>
+        </div>
+        
+        <div class="header-actions">
+            <div class="total-registros">
+                📋 Total de registros: <strong>{{ historial|length }}</strong>
+            </div>
+            <div>
+                <a href="/" class="btn btn-primary">← Volver</a>
+                {% if historial|length > 0 %}
+                <form action="/limpiar_historial" method="POST" style="display: inline;" 
+                      onsubmit="return confirm('¿Confirma la eliminación de todo el historial? Esta acción no se puede deshacer.');">
+                    <button type="submit" class="btn btn-danger">🗑️ Limpiar</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if historial|length > 0 %}
+            <!-- Estadísticas Resumidas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Promedio IDE Modelo</div>
+                    <div class="stat-value">
+                        {{ "%.4f"|format(historial|map(attribute='ide_modelo')|sum / historial|length) }}
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-label">Promedio IDE Línea Base</div>
+                    <div class="stat-value">
+                        {{ "%.4f"|format(historial|map(attribute='ide_baseline')|sum / historial|length) }}
+                    </div>
+                </div>
+                <div class="stat-card energy">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-label">Consumo Total Acumulado</div>
+                    <div class="stat-value">
+                        {{ "%.2f"|format(historial|map(attribute='kwh')|sum) }}
+                    </div>
+                    <div style="font-size: 0.8em; color: #5a6c7d; margin-top: 5px;">kWh</div>
+                </div>
+                <div class="stat-card efficiency">
+                    <div class="stat-icon">⚙️</div>
+                    <div class="stat-label">Promedio Eficiencia Op.</div>
+                    <div class="stat-value">
+                        {{ "%.4f"|format(historial|map(attribute='eficiencia_operacional')|sum / historial|length) }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabla de Historial -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h3>📋 Registro Detallado de Predicciones</h3>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha / Hora</th>
+                                <th>Lbs Tot Equiv</th>
+                                <th>IDE Modelo</th>
+                                <th>IDE Línea Base</th>
+                                <th>Consumo (kWh)</th>
+                                <th>Eficiencia Op.</th>
+                                <th>Desviación IDE</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in historial %}
+                            <tr>
+                                <td class="numero-registro">{{ "%03d"|format(loop.index) }}</td>
+                                <td class="fecha-hora">{{ registro.fecha_hora }}</td>
+                                <td class="valor-numerico">{{ "%.2f"|format(registro.lbs_tot_equiv) }}</td>
+                                <td class="valor-numerico">{{ "%.4f"|format(registro.ide_modelo) }}</td>
+                                <td class="valor-numerico">{{ "%.4f"|format(registro.ide_baseline) }}</td>
+                                <td class="valor-numerico">{{ "%.2f"|format(registro.kwh) }}</td>
+                                <td class="valor-numerico">{{ "%.4f"|format(registro.eficiencia_operacional) }}</td>
+                                <td class="valor-numerico {% if registro.desviacion_ide < 0 %}valor-negativo{% else %}valor-positivo{% endif %}">
+                                    {{ "%.2f"|format(registro.desviacion_ide) }}%
+                                </td>
+                                <td>
+                                    <span class="badge {% if registro.desviacion_ide < 0 %}badge-success{% else %}badge-danger{% endif %}">
+                                        {% if registro.desviacion_ide < 0 %}✓ Óptimo{% else %}⚠ Atención{% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">📊</div>
+                <h3>No hay registros disponibles</h3>
+                <p>El historial está vacío. Realice su primera predicción para comenzar el monitoreo.</p>
+                <a href="/" class="btn btn-primary">Iniciar Análisis</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

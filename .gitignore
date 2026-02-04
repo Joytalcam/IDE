@@ -1,0 +1,55 @@
+# Ignorar archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Ignorar entorno virtual
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Flask
+instance/
+.webassets-cache
+
+# Archivos de historial local (durante desarrollo)
+# Descomentar si quieres ignorar el historial
+# historial_predicciones.json
+
+# Archivos de sistema
+Thumbs.db
+.directory
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log

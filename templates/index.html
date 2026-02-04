@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción de IDE - Sistema de Monitoreo Energético</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e8eef3;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        /* Header */
+        .header {
+            border-bottom: 3px solid #1a5490;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #1a5490;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #5a6c7d;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        /* Alertas */
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ff8800;
+            color: #856404;
+            padding: 15px 18px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border-left-color: #d32f2f;
+            color: #721c24;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left-color: #00a86b;
+            color: #155724;
+        }
+        
+        .alert-icon {
+            font-size: 1.2em;
+        }
+        
+        /* Formulario */
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: #1a5490;
+            font-size: 1em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e6ed;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #5a6c7d;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .label-required::after {
+            content: " *";
+            color: #d32f2f;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+            font-family: 'Courier New', monospace;
+            color: #1a1a1a;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #1a5490;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(26, 84, 144, 0.1);
+        }
+        
+        input[type="number"]:hover {
+            border-color: #2d7dd2;
+        }
+        
+        /* Botón de envío */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: #1a5490;
+            color: white;
+            border: 2px solid #1a5490;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-submit:hover {
+            background: #144070;
+            border-color: #144070;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 84, 144, 0.3);
+        }
+        
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        
+        .btn-submit:disabled {
+            background: #9ca3af;
+            border-color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Botón secundario */
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: #5a6c7d;
+            border: 2px solid #5a6c7d;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6c7d;
+            color: white;
+        }
+        
+        /* Info box */
+        .info-box {
+            background: #f8fafb;
+            border: 1px solid #e0e6ed;
+            border-left: 4px solid #1a5490;
+            border-radius: 4px;
+            padding: 18px;
+            margin-top: 25px;
+            font-size: 0.85em;
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+        
+        .info-box-title {
+            color: #1a5490;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9em;
+        }
+        
+        .info-item {
+            margin: 6px 0;
+            padding-left: 18px;
+            position: relative;
+        }
+        
+        .info-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #1a5490;
+        }
+        
+        /* Grid de parámetros */
+        .params-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        /* Indicador de campo requerido */
+        .required-note {
+            font-size: 0.8em;
+            color: #5a6c7d;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        .required-note span {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .params-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Sistema de Monitoreo Energético</h1>
+            <p class="subtitle">Predicción del Índice de Desempeño Energético (IDE)<br>Análisis Predictivo de Eficiencia Industrial</p>
+        </div>
+        
+        {% if error %}
+        <div class="alert alert-error">
+            <span class="alert-icon">⚠️</span>
+            <div>{{ error }}</div>
+        </div>
+        {% endif %}
+        
+        {% if mensaje %}
+        <div class="alert alert-success">
+            <span class="alert-icon">✓</span>
+            <div>{{ mensaje }}</div>
+        </div>
+        {% endif %}
+        
+        <form method="POST" action="/predecir" id="predictionForm">
+            <div class="form-section">
+                <div class="section-title">📋 Parámetros de Entrada</div>
+                
+                <div class="params-grid">
+                    {% for feature in features %}
+                    <div class="form-group">
+                        <label for="{{ feature }}" class="label-required">{{ feature }}</label>
+                        <input 
+                            type="number" 
+                            id="{{ feature }}" 
+                            name="{{ feature }}" 
+                            step="0.01" 
+                            required
+                            placeholder="0.00"
+                        >
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <p class="required-note"><span>*</span> Todos los campos son obligatorios</p>
+            </div>
+            
+            <button type="submit" class="btn-submit" id="submitBtn">
+                🔍 Ejecutar Análisis
+            </button>
+            
+            <a href="/historial" class="btn-secondary">
+                📊 Ver Historial de Predicciones
+            </a>
+        </form>
+        
+        <div class="info-box">
+            <div class="info-box-title">ℹ️ Información del Sistema</div>
+            <div class="info-item">El sistema utiliza un modelo predictivo entrenado con RobustScaler</div>
+            <div class="info-item">Los valores deben ser numéricos y mayores a cero</div>
+            <div class="info-item">La predicción incluye IDE modelo, IDE línea base, consumo energético y eficiencia</div>
+            <div class="info-item">Todos los análisis quedan registrados en el historial</div>
+        </div>
+    </div>
+    
+    <script>
+        // Validación del formulario
+        const form = document.getElementById('predictionForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        form.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Procesando...';
+        });
+        
+        // Validación en tiempo real
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
