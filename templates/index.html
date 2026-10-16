@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #e8eef3;
+            background: #0a0a0a; /* Fondo negro */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,39 +22,40 @@
         }
         
         .container {
-            background: white;
+            background: #0d1b2a; /* Azul muy oscuro */
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 15px rgba(0, 100, 255, 0.2);
             padding: 40px;
             max-width: 700px;
             width: 100%;
+            border: 1px solid #1a3a5c;
         }
         
         /* Header */
         .header {
-            border-bottom: 3px solid #1a5490;
+            border-bottom: 3px solid #2d7dd2;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
         
         h1 {
-            color: #1a5490;
+            color: #4da6ff; /* Azul claro */
             font-size: 1.8em;
             font-weight: 600;
             margin-bottom: 8px;
         }
         
         .subtitle {
-            color: #5a6c7d;
+            color: #a0b8d0; /* Gris azulado claro */
             font-size: 0.95em;
             line-height: 1.5;
         }
         
         /* Alertas */
         .alert {
-            background: #fff3cd;
+            background: #1a2a3a;
             border-left: 4px solid #ff8800;
-            color: #856404;
+            color: #ffcc80;
             padding: 15px 18px;
             margin-bottom: 25px;
             border-radius: 4px;
@@ -65,15 +66,15 @@
         }
         
         .alert-error {
-            background: #f8d7da;
+            background: #2a1a1a;
             border-left-color: #d32f2f;
-            color: #721c24;
+            color: #ff8a80;
         }
         
         .alert-success {
-            background: #d4edda;
+            background: #1a2a1a;
             border-left-color: #00a86b;
-            color: #155724;
+            color: #80ffaa;
         }
         
         .alert-icon {
@@ -86,14 +87,14 @@
         }
         
         .section-title {
-            color: #1a5490;
+            color: #4da6ff;
             font-size: 1em;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e0e6ed;
+            border-bottom: 2px solid #1a3a5c;
         }
         
         .form-group {
@@ -102,7 +103,7 @@
         
         label {
             display: block;
-            color: #5a6c7d;
+            color: #a0b8d0;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 0.9em;
@@ -110,26 +111,26 @@
         
         .label-required::after {
             content: " *";
-            color: #d32f2f;
+            color: #ff6b6b;
         }
         
         input[type="number"] {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e0e6ed;
+            border: 2px solid #1a3a5c;
             border-radius: 4px;
             font-size: 1em;
             transition: all 0.3s ease;
-            background: #fafbfc;
+            background: #0a1628; /* Azul muy oscuro */
             font-family: 'Courier New', monospace;
-            color: #1a1a1a;
+            color: #e0e0e0;
         }
         
         input[type="number"]:focus {
             outline: none;
-            border-color: #1a5490;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(26, 84, 144, 0.1);
+            border-color: #4da6ff;
+            background: #0d1b2a;
+            box-shadow: 0 0 0 3px rgba(77, 166, 255, 0.2);
         }
         
         input[type="number"]:hover {
@@ -154,10 +155,10 @@
         }
         
         .btn-submit:hover {
-            background: #144070;
-            border-color: #144070;
+            background: #2d7dd2;
+            border-color: #2d7dd2;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(26, 84, 144, 0.3);
+            box-shadow: 0 4px 15px rgba(45, 125, 210, 0.4);
         }
         
         .btn-submit:active {
@@ -165,8 +166,8 @@
         }
         
         .btn-submit:disabled {
-            background: #9ca3af;
-            border-color: #9ca3af;
+            background: #3a4a5a;
+            border-color: #3a4a5a;
             cursor: not-allowed;
             transform: none;
         }
@@ -175,9 +176,9 @@
         .btn-secondary {
             width: 100%;
             padding: 12px;
-            background: white;
-            color: #5a6c7d;
-            border: 2px solid #5a6c7d;
+            background: transparent;
+            color: #a0b8d0;
+            border: 2px solid #2d7dd2;
             border-radius: 4px;
             font-size: 0.95em;
             font-weight: 600;
@@ -192,25 +193,25 @@
         }
         
         .btn-secondary:hover {
-            background: #5a6c7d;
+            background: #2d7dd2;
             color: white;
         }
         
         /* Info box */
         .info-box {
-            background: #f8fafb;
-            border: 1px solid #e0e6ed;
-            border-left: 4px solid #1a5490;
+            background: #0a1628;
+            border: 1px solid #1a3a5c;
+            border-left: 4px solid #4da6ff;
             border-radius: 4px;
             padding: 18px;
             margin-top: 25px;
             font-size: 0.85em;
-            color: #5a6c7d;
+            color: #a0b8d0;
             line-height: 1.6;
         }
         
         .info-box-title {
-            color: #1a5490;
+            color: #4da6ff;
             font-weight: 600;
             margin-bottom: 8px;
             text-transform: uppercase;
@@ -228,7 +229,7 @@
             content: "▸";
             position: absolute;
             left: 0;
-            color: #1a5490;
+            color: #4da6ff;
         }
         
         /* Grid de parámetros */
@@ -241,13 +242,13 @@
         /* Indicador de campo requerido */
         .required-note {
             font-size: 0.8em;
-            color: #5a6c7d;
+            color: #a0b8d0;
             margin-top: 15px;
             font-style: italic;
         }
         
         .required-note span {
-            color: #d32f2f;
+            color: #ff6b6b;
             font-weight: 600;
         }
         

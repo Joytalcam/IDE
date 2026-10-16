@@ -43,7 +43,7 @@ instance/
 
 # Archivos de historial local (durante desarrollo)
 # Descomentar si quieres ignorar el historial
-# historial_predicciones.json
+historial_predicciones.json
 
 # Archivos de sistema
 Thumbs.db
